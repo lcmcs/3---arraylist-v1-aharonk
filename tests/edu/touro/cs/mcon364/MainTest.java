@@ -49,7 +49,6 @@ class MainTest {
     @Order(5)
     void containsFail() {
         assertThrows(ClassCastException.class, () -> ma.contains((Object) Integer.parseInt("1")));
-        assertThrows(NullPointerException.class, () -> ma.contains(null));
     }
 
     @Test

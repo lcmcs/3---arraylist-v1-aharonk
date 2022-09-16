@@ -43,7 +43,8 @@ public class MyArrayList implements List<String> {
 
     @Override
     public boolean contains(Object o) {
-        nullCheck(o);
+        // currently unused
+        //nullCheck(o);
         return find(o) != null;
     }
 
