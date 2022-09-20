@@ -27,32 +27,20 @@ class MainTest {
 
     @Test
     @Order(2)
-    void addFail() {
-        assertThrows(NullPointerException.class, () -> ma.add(null));
-    }
-
-    @Test
-    @Order(3)
     void size() {
         assertEquals(2, ma.size());
         assertFalse(ma.isEmpty());
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     void contains() {
         assertTrue(ma.contains("a"));
         assertFalse(ma.contains("c"));
     }
 
     @Test
-    @Order(5)
-    void containsFail() {
-        assertThrows(ClassCastException.class, () -> ma.contains((Object) Integer.parseInt("1")));
-    }
-
-    @Test
-    @Order(6)
+    @Order(4)
     void addSpecific() {
         ma.add(1, "c");
         assertEquals(ma.get(1), "c");
@@ -64,54 +52,52 @@ class MainTest {
     }
 
     @Test
-    @Order(7)
+    @Order(4)
     void addSpecificFail() {
         assertThrows(IndexOutOfBoundsException.class, () -> ma.add(7, "e"));
-        assertThrows(NullPointerException.class, () -> ma.add(1, null));
     }
 
     @Test
-    @Order(8)
+    @Order(5)
     void get() {
         assertEquals("a", ma.get(0));
         assertEquals("c", ma.get(1));
     }
 
     @Test
-    @Order(9)
+    @Order(5)
     void getFail() {
         assertThrows(IndexOutOfBoundsException.class, () ->  ma.get(7));
     }
 
     @Test
-    @Order(10)
+    @Order(6)
     void set() {
         assertEquals("a", ma.set(0, "f"));
         assertEquals("f", ma.set(0, "a"));
     }
 
     @Test
-    @Order(11)
+    @Order(6)
     void setFail() {
         assertThrows(IndexOutOfBoundsException.class, () -> ma.set(7, "g"));
-        assertThrows(NullPointerException.class, () -> ma.set(0, null));
     }
 
     @Test
-    @Order(12)
+    @Order(7)
     void remove() {
         assertEquals("d", ma.remove(3));
         assertEquals(3, ma.size());
     }
 
     @Test
-    @Order(13)
+    @Order(7)
     void removeFail() {
         assertThrows(IndexOutOfBoundsException.class, () -> ma.remove(3));
     }
 
     @Test
-    @Order(14)
+    @Order(8)
     void clear() {
         ma.clear();
         assertTrue(ma.isEmpty());

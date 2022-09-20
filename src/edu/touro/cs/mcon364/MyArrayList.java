@@ -25,45 +25,40 @@ public class MyArrayList implements List<String> {
         ip = 0;
     }
 
-    private void nullCheck(Object o) {
-        if (o == null) {
-            throw new NullPointerException("This list cannot contain null elements.");
+    private int find(Object o) {
+        if (o != null && !(o instanceof String)) {
+            return -1;
         }
-    }
 
-    private String find(Object o) {
         String s = (String) o;
         for (int i = 0; i < ip; i++) {
-            if (backingStore[i].equals(s)) {
-                return backingStore[i];
+            if ((o == null && backingStore[i] == null) || backingStore[i].equals(s)) {
+                return i;
             }
         }
-        return null;
+        return -1;
     }
 
     @Override
     public boolean contains(Object o) {
-        // currently unused
-        //nullCheck(o);
-        return find(o) != null;
+        return find(o) != -1;
     }
 
-    private void OOBCheck(int i) {
-        if (i < 0 || i >= ip) {
-            throw new IndexOutOfBoundsException("Index " + i + " is out of bounds for length " + ip + ".");
+    private void OOBCheck(int i, boolean forAdd) {
+        if (i < 0 || (forAdd ? i > ip : i >= ip)) {
+            throw new IndexOutOfBoundsException(String.format("Index %d is out of bounds for length %d.", i, ip));
         }
     }
 
     @Override
     public String get(int index) {
-        OOBCheck(index);
+        OOBCheck(index, false);
         return backingStore[index];
     }
 
     @Override
     public String set(int index, String element) {
-        OOBCheck(index);
-        nullCheck(element);
+        OOBCheck(index, false);
 
         String old = backingStore[index];
         backingStore[index] = element;
@@ -76,16 +71,9 @@ public class MyArrayList implements List<String> {
         backingStore = newBs;
     }
 
-    private void OOBCheckForAdd(int i) {
-        if (i < 0 || i > ip) {
-            throw new IndexOutOfBoundsException("Index " + i + " is out of bounds for length " + ip + ".");
-        }
-    }
-
     @Override
     public void add(int index, String element) {
-        OOBCheckForAdd(index);
-        nullCheck(element);
+        OOBCheck(index, true);
 
         if (ip >= backingStore.length) {
             growBackingStore();
@@ -98,10 +86,9 @@ public class MyArrayList implements List<String> {
 
     @Override
     public boolean add(String s) {
-        nullCheck(s);
-
-        if (ip >= backingStore.length)
+        if (ip >= backingStore.length) {
             growBackingStore();
+        }
 
         backingStore[ip++] = s;
         return true;
@@ -109,7 +96,7 @@ public class MyArrayList implements List<String> {
 
     @Override
     public String remove(int index) {
-        OOBCheck(index);
+        OOBCheck(index, false);
 
         String s = backingStore[index];
         int newSize;
